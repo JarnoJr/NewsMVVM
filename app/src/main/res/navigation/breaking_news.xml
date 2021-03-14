@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/breakingNewsFragment"
+    app:startDestination="@id/breakingNewsFragment2">
+
+    <fragment
+        android:id="@+id/breakingNewsFragment2"
+        android:name="com.example.newsmvvm.view.fragments.BreakingNewsFragment"
+        tools:layout="@layout/breaking_news_fragment"
+        android:label="BreakingNewsFragment" />
+</navigation>
