@@ -27,7 +27,6 @@ class NewsLoadStateAdapter(private val retry:() -> Unit) : LoadStateAdapter<News
 
             }
         }
-
     }
 
     override fun onBindViewHolder(holder: LoadStateViewHolder, loadState: LoadState) {

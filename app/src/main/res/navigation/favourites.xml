@@ -9,5 +9,21 @@
         android:id="@+id/favouritesFragment2"
         android:name="com.example.newsmvvm.view.fragments.FavouritesFragment"
         tools:layout="@layout/favourites_fragment"
-        android:label="FavouritesFragment" />
+        android:label="FavouritesFragment" >
+        <action
+            android:id="@+id/action_favouritesFragment2_to_articleFragment2"
+            app:destination="@id/articleFragment2"
+            app:enterAnim="@anim/slide_in_top"
+            app:exitAnim="@anim/slide_out_bottom"
+            app:popEnterAnim="@anim/slide_out_top"
+            app:popExitAnim="@anim/slide_in_bottom" />
+    </fragment>
+    <fragment
+        android:id="@+id/articleFragment2"
+        android:name="com.example.newsmvvm.view.fragments.ArticleFragment"
+        android:label="ArticleFragment" >
+        <argument
+            android:name="article"
+            app:argType="com.example.newsmvvm.model.Article" />
+    </fragment>
 </navigation>

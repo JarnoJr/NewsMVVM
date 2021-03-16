@@ -1,5 +1,9 @@
 package com.example.newsmvvm.di
 
+import android.content.Context
+import androidx.room.Room
+import com.example.newsmvvm.local.AppDatabase
+import com.example.newsmvvm.local.NewsDao
 import com.example.newsmvvm.network.RetroAPI
 import com.example.newsmvvm.util.Consts.Companion.BASE_URL
 import com.example.newsmvvm.util.Consts.Companion.CONNECTION_TIMEOUT
@@ -8,6 +12,7 @@ import com.example.newsmvvm.util.Consts.Companion.WRITE_TIMEOUT
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -39,7 +44,7 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideRetroInstance(client: OkHttpClient, interceptor: HttpLoggingInterceptor): Retrofit {
+    fun provideRetroInstance(client: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(client)
@@ -51,5 +56,15 @@ object AppModule {
     @Provides
     fun provideRetroApi(retrofit: Retrofit): RetroAPI {
         return retrofit.create(RetroAPI::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideDatabase(@ApplicationContext context: Context): AppDatabase {
+        return Room.databaseBuilder(context, AppDatabase::class.java, "NewsDb").fallbackToDestructiveMigration().build()
+    }
+    @Provides
+    fun provideDao(appDatabase: AppDatabase):NewsDao{
+        return appDatabase.newsDao()
     }
 }

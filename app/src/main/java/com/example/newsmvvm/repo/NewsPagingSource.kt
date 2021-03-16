@@ -13,11 +13,11 @@ private const val STARTING_PAGE = 1
 class NewsPagingSource(
     private val api: RetroAPI,
     private val countryCode: String,
-    private val category: String,
+    private val category: String ,
     private val apiKey: String
 ) : PagingSource<Int, Article>() {
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Article> {
-        return try {
+         try {
             val nextPageNumber = params.key ?: STARTING_PAGE
             val response =
                 withContext(Dispatchers.IO) {
@@ -36,9 +36,9 @@ class NewsPagingSource(
                 nextKey = if (articles.isEmpty()) null else nextPageNumber + 1
             )
         } catch (e: IOException) {
-            LoadResult.Error(e)
+            return LoadResult.Error(e)
         } catch (exception: HttpException) {
-            LoadResult.Error(exception)
+            return LoadResult.Error(exception)
         }
     }
 
