@@ -1,7 +1,9 @@
 package com.example.newsmvvm.adapter
 
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -10,7 +12,9 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.newsmvvm.R
 import com.example.newsmvvm.databinding.NewsItemBinding
 import com.example.newsmvvm.model.Article
+import com.example.newsmvvm.util.DateUtil
 import com.example.newsmvvm.util.GlideUtil
+import com.example.newsmvvm.util.OnArticleClickListener
 import dagger.hilt.android.scopes.FragmentScoped
 import javax.inject.Inject
 
@@ -21,9 +25,9 @@ class BreakingNewsAdapter @Inject constructor(
     PagingDataAdapter<Article, BreakingNewsAdapter.BreakingNewsHolder>(NEWS_COMPARATOR) {
 
 
-    private lateinit var listener: onItemClickListener
+    private lateinit var listener: OnArticleClickListener
 
-    fun setOnClickListener(onClickListener: onItemClickListener) {
+    fun setOnClickListener(onClickListener: OnArticleClickListener) {
         this.listener = onClickListener
     }
 
@@ -37,10 +41,9 @@ class BreakingNewsAdapter @Inject constructor(
                 return oldItem == newItem
             }
         }
-
-
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: BreakingNewsHolder, position: Int) {
         val currentArticle = getItem(position)
         currentArticle?.let {
@@ -64,6 +67,7 @@ class BreakingNewsAdapter @Inject constructor(
             }
         }
 
+        @RequiresApi(Build.VERSION_CODES.O)
         fun bind(article: Article) {
             binding.apply {
                 Glide.with(itemView)
@@ -76,7 +80,7 @@ class BreakingNewsAdapter @Inject constructor(
 
                 tvNewsTitle.text = article.title
                 tvAuthor.text = article.author
-                tvDate.text = article.publishedAt
+                tvDate.text = DateUtil.convertDate(article.publishedAt!!)
 
             }
         }
@@ -87,8 +91,8 @@ class BreakingNewsAdapter @Inject constructor(
         return BreakingNewsHolder(binding)
     }
 
-    interface onItemClickListener {
-        fun onArticleClick(article: Article)
-    }
+//    interface onItemClickListener {
+//        fun onArticleClick(article: Article)
+//    }
 }
 

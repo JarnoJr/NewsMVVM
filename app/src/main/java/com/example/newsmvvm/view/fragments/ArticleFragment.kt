@@ -1,11 +1,12 @@
 package com.example.newsmvvm.view.fragments
 
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.BounceInterpolator
 import android.view.animation.ScaleAnimation
-import android.webkit.WebViewClient
+import android.webkit.WebView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
@@ -61,7 +62,7 @@ class ArticleFragment : Fragment(R.layout.article_fragment) {
                 Snackbar.make(
                     requireContext(),
                     requireView(),
-                    "Başarıyla favorilere eklendi",
+                    "Added to favs",
                     Snackbar.LENGTH_LONG
                 )
                     .setBackgroundTint(requireContext().resources.getColor(R.color.success))
@@ -71,7 +72,7 @@ class ArticleFragment : Fragment(R.layout.article_fragment) {
                 Snackbar.make(
                     requireContext(),
                     requireView(),
-                    "Favorilerden kaldırıldı.",
+                    "Removed from  favs.",
                     Snackbar.LENGTH_LONG
                 )
                     .setBackgroundTint(requireContext().resources.getColor(R.color.success))
@@ -84,5 +85,22 @@ class ArticleFragment : Fragment(R.layout.article_fragment) {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    inner class WebViewClient() : android.webkit.WebViewClient() {
+        override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
+            super.onPageStarted(view, url, favicon)
+            binding.progressBar.visibility = View.VISIBLE
+        }
+
+        override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
+            view?.loadUrl(url!!)
+            return true
+        }
+
+        override fun onPageFinished(view: WebView?, url: String?) {
+            super.onPageFinished(view, url)
+            binding.progressBar.visibility = View.GONE
+        }
     }
 }

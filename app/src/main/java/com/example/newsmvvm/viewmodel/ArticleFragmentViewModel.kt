@@ -13,9 +13,9 @@ class ArticleFragmentViewModel @Inject constructor(
     private val repo: Repo
 ) : ViewModel() {
 
-    fun insertArticle(article: Article){
+    fun insertArticle(article: Article) {
         viewModelScope.launch {
-         article.id =  repo.insertNew(article).toInt()
+            article.id = repo.insertNew(article).toInt()
         }
 
     }

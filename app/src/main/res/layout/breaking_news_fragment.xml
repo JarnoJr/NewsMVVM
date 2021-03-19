@@ -99,77 +99,6 @@
                     android:layout_marginLeft="3dp"
                     android:text="" />
             </LinearLayout>
-
-            <HorizontalScrollView
-                android:id="@+id/horizontalScroll"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/topLl"
-                android:background="@drawable/divider"
-                android:elevation="8dp"
-                android:scrollbars="none">
-
-                <com.google.android.material.chip.ChipGroup
-                    android:id="@+id/chipGroup"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingLeft="8dp"
-                    app:singleLine="true"
-                    app:singleSelection="true">
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/sortByCategory"
-                        style="@style/CustomChipStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="true"
-                        android:text="Kategoriye Göre" />
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/tarihAzalanChip"
-                        style="@style/CustomChipStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-
-                        android:text="Tarih Azalan" />
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/tarihArtanChip"
-                        style="@style/CustomChipStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Tarih Artan" />
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/fiyatAzalanChip"
-                        style="@style/CustomChipStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Fiyat Azalan" />
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/fiyatArtanChip"
-                        style="@style/CustomChipStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Fiyat Artan" />
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/alfabetikArtanChip"
-                        style="@style/CustomChipStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="A-Z Artan" />
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/alfabetikAzanlanChip"
-                        style="@style/CustomChipStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="A-Z Azalan" />
-                </com.google.android.material.chip.ChipGroup>
-            </HorizontalScrollView>
-
         </RelativeLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -182,6 +111,12 @@
         android:paddingBottom="50dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:listitem="@layout/news_item" />
+
+
+    <include
+        android:id="@+id/loadingOrErrorLayout"
+        layout="@layout/loading_error_layout"
+        />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -2,6 +2,7 @@ package com.example.newsmvvm.adapter
 
 import android.app.Dialog
 import android.net.Uri
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
@@ -15,7 +16,7 @@ import com.example.newsmvvm.model.DialogItem
 import com.example.newsmvvm.util.Consts
 import com.neovisionaries.i18n.CountryCode
 
-
+private const val TAG = "DialogAdapter"
 class DialogAdapter(private val listener: OnItemClickListener,private val dialog:Dialog) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     companion object {
@@ -144,7 +145,8 @@ class DialogAdapter(private val listener: OnItemClickListener,private val dialog
         for (i in Consts.COUNTRIES.indices) {
             val country = DialogItem()
             val cc = CountryCode.getByAlpha2Code(Consts.COUNTRIES[i].toUpperCase())
-            val countryName = cc.name
+            val countryName = cc.getName()
+            Log.i(TAG, "displayCountries: $countryName")
             country.title = countryName
             country.imageUrl = cc.toString().toLowerCase()
             countries.add(country)

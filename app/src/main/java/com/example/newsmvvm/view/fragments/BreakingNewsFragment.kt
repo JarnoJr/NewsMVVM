@@ -3,11 +3,12 @@ package com.example.newsmvvm.view.fragments
 import android.app.Dialog
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.newsmvvm.R
 import com.example.newsmvvm.adapter.BreakingNewsAdapter
@@ -17,42 +18,65 @@ import com.example.newsmvvm.adapter.OnItemClickListener
 import com.example.newsmvvm.databinding.BreakingNewsFragmentBinding
 import com.example.newsmvvm.model.Article
 import com.example.newsmvvm.model.DialogItem
+import com.example.newsmvvm.util.OnArticleClickListener
 import com.example.newsmvvm.viewmodel.BreakingNewsViewModel
+import com.neovisionaries.i18n.CountryCode
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 private const val TAG = "BreakingNewsFragment"
 
 @AndroidEntryPoint
-class BreakingNewsFragment : Fragment(R.layout.breaking_news_fragment), OnItemClickListener,
-    BreakingNewsAdapter.onItemClickListener {
-
+class BreakingNewsFragment :
+    BaseFragment<BreakingNewsFragmentBinding>(BreakingNewsFragmentBinding::inflate),
+    OnItemClickListener,
+    OnArticleClickListener {
     private val mViewModel by viewModels<BreakingNewsViewModel>()
 
     @Inject
     lateinit var mAdapter: BreakingNewsAdapter
 
-    private var _mBinding: BreakingNewsFragmentBinding? = null
-
-    private val mBinding get() = _mBinding!!
-
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        _mBinding = BreakingNewsFragmentBinding.bind(view)
-        initRecycler()
-        mAdapter.setOnClickListener(this)
+        initAdapter()
         observeViewModel()
-        if (savedInstanceState != null) {
-            mBinding.countryCode.text = savedInstanceState.getString("country")
-            mBinding.tvCategory.text = savedInstanceState.getString("category")
+        initRecycler()
+        binding.countryCode.text = mViewModel.getCountry()
+        binding.tvCategory.text = mViewModel.getCategory()
+        binding.loadingOrErrorLayout.apply {
+            buttonRetry.setOnClickListener {
+                mAdapter.retry()
+            }
         }
         initToolbar()
         observeTextFields()
     }
 
+    private fun initAdapter() {
+        mAdapter.setOnClickListener(this)
+        mAdapter.addLoadStateListener { loadState ->
+            binding.apply {
+                loadingOrErrorLayout.progressBar.isVisible =
+                    loadState.source.refresh is LoadState.Loading
+                rvBreakingNews.isVisible = loadState.source.refresh is LoadState.NotLoading
+                loadingOrErrorLayout.buttonRetry.isVisible =
+                    loadState.source.refresh is LoadState.Error
+                loadingOrErrorLayout.textViewError.isVisible =
+                    loadState.source.refresh is LoadState.Error
+
+                if (loadState.source.refresh is LoadState.NotLoading && loadState.append.endOfPaginationReached && mAdapter.itemCount < 1) {
+                    rvBreakingNews.isVisible = false
+                    loadingOrErrorLayout.textViewEmpty.isVisible = true
+                } else {
+                    loadingOrErrorLayout.textViewEmpty.isVisible = false
+                }
+
+            }
+        }
+    }
+
     private fun initToolbar() {
-        mBinding.toolbar.setOnMenuItemClickListener {
+        binding.toolbar.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.category -> {
                     showCategoryDialog()
@@ -68,7 +92,7 @@ class BreakingNewsFragment : Fragment(R.layout.breaking_news_fragment), OnItemCl
     }
 
     private fun initRecycler() {
-        mBinding.rvBreakingNews.apply {
+        binding.rvBreakingNews.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(requireContext())
             adapter = mAdapter.withLoadStateHeaderAndFooter(
@@ -76,12 +100,6 @@ class BreakingNewsFragment : Fragment(R.layout.breaking_news_fragment), OnItemCl
                 footer = NewsLoadStateAdapter { mAdapter.retry() }
             )
         }
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putString("category", mBinding.tvCategory.text.toString())
-        outState.putString("country", mBinding.countryCode.text.toString())
     }
 
     private fun showCategoryDialog() {
@@ -110,10 +128,10 @@ class BreakingNewsFragment : Fragment(R.layout.breaking_news_fragment), OnItemCl
     }
 
     private fun observeTextFields() {
-        mBinding.tvCategory.addTextChangedListener {
+        binding.tvCategory.addTextChangedListener {
             mViewModel.setCategory(it.toString().toLowerCase())
         }
-        mBinding.countryCode.addTextChangedListener {
+        binding.countryCode.addTextChangedListener {
             mViewModel.setCountry(it.toString().toLowerCase())
         }
     }
@@ -126,17 +144,14 @@ class BreakingNewsFragment : Fragment(R.layout.breaking_news_fragment), OnItemCl
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _mBinding = null
-    }
-
     override fun onDialogClick(item: DialogItem) {
-        mBinding.tvCategory.text = item.title
+        binding.tvCategory.text = item.title
     }
 
     override fun onCountryClick(country: DialogItem) {
-        mBinding.countryCode.text = country.title
+        val countryCode = country.title
+        val name = CountryCode.findByName(countryCode).get(0)
+        binding.countryCode.text = name.toString()
     }
 
     override fun onArticleClick(article: Article) {
@@ -144,6 +159,4 @@ class BreakingNewsFragment : Fragment(R.layout.breaking_news_fragment), OnItemCl
             BreakingNewsFragmentDirections.actionBreakingNewsFragment2ToArticleFragment(article)
         findNavController().navigate(action)
     }
-
-
 }

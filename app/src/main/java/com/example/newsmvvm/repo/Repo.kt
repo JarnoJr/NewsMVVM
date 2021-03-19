@@ -31,4 +31,15 @@ class Repo @Inject constructor(
     }
 
     fun getArticles() =dao.getAllArticles()
+
+    fun searchNews(query:String):Pager<Int,Article>{
+        return Pager(
+            config = PagingConfig(
+                pageSize = 20,
+                maxSize = 100,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = {SearchNewsPagingSource(retroAPI,query,API_KEY)}
+        )
+    }
 }

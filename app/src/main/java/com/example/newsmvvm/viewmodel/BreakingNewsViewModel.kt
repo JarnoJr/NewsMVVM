@@ -39,4 +39,7 @@ class BreakingNewsViewModel
         this.category.value = category
     }
 
+    fun getCountry(): String = countryCode.value!!.toUpperCase()
+
+    fun getCategory(): String = category.value!!.capitalize()
 }

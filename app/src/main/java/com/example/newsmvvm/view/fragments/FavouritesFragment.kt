@@ -2,36 +2,35 @@ package com.example.newsmvvm.view.fragments
 
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.newsmvvm.R
 import com.example.newsmvvm.adapter.FavouritesAdapter
 import com.example.newsmvvm.databinding.FavouritesFragmentBinding
 import com.example.newsmvvm.model.Article
 import com.example.newsmvvm.viewmodel.FavouritesFragmentViewModel
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class FavouritesFragment : Fragment(R.layout.favourites_fragment),
+class FavouritesFragment :
+    BaseFragment<FavouritesFragmentBinding>(FavouritesFragmentBinding::inflate),
     FavouritesAdapter.OnItemClickListener {
 
     private val mViewModel: FavouritesFragmentViewModel by viewModels()
-
-    private var _binding: FavouritesFragmentBinding? = null
-
-    private val binding: FavouritesFragmentBinding get() = _binding!!
 
     @Inject
     lateinit var mAdapter: FavouritesAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        _binding = FavouritesFragmentBinding.bind(view)
         mAdapter.setOnClickListener(this)
         initRecycler()
+        swipeToDelete()
         observeViewModel()
     }
 
@@ -48,14 +47,46 @@ class FavouritesFragment : Fragment(R.layout.favourites_fragment),
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
     override fun onArticleClick(article: Article) {
         val action =
             FavouritesFragmentDirections.actionFavouritesFragment2ToArticleFragment2(article)
         findNavController().navigate(action)
+    }
+
+    private fun swipeToDelete() {
+        val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(
+            ItemTouchHelper.UP or ItemTouchHelper.DOWN,
+            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+        ) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean = true
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val position = viewHolder.bindingAdapterPosition
+                val article = mAdapter.differ.currentList[position]
+                mViewModel.removeArticle(article)
+                Snackbar.make(
+                    requireContext(),
+                    requireView(),
+                    "Removed from  favs.",
+                    Snackbar.LENGTH_LONG
+                ).apply {
+                    setActionTextColor(requireContext().resources.getColor(R.color.white))
+                    setAction("Undo") {
+                        mViewModel.saveArticle(article)
+                    }
+                    setBackgroundTint(requireContext().resources.getColor(R.color.success))
+                }
+                    .show()
+            }
+        }
+
+        ItemTouchHelper(itemTouchHelperCallback).apply {
+            attachToRecyclerView(binding.rvFavouriteNews)
+        }
+
     }
 }

@@ -3,8 +3,6 @@ package com.example.newsmvvm.repo
 import androidx.paging.PagingSource
 import com.example.newsmvvm.model.Article
 import com.example.newsmvvm.network.RetroAPI
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 import java.io.IOException
 
@@ -13,22 +11,20 @@ private const val STARTING_PAGE = 1
 class NewsPagingSource(
     private val api: RetroAPI,
     private val countryCode: String,
-    private val category: String ,
+    private val category: String,
     private val apiKey: String
 ) : PagingSource<Int, Article>() {
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Article> {
-         try {
+        try {
             val nextPageNumber = params.key ?: STARTING_PAGE
-            val response =
-                withContext(Dispatchers.IO) {
-                    api.getTopNews(
-                        countryCode,
-                        category,
-                        nextPageNumber,
-                        20,
-                        apiKey
-                    )
-                }
+            val response = api.getTopNews(
+                countryCode,
+                category,
+                nextPageNumber,
+                20,
+                apiKey
+            )
+
             val articles = response.articles
             return LoadResult.Page(
                 data = articles,
