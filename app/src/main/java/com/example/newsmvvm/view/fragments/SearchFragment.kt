@@ -9,10 +9,12 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.newsmvvm.R
 import com.example.newsmvvm.adapter.BreakingNewsAdapter
 import com.example.newsmvvm.databinding.SearchNewsFragmentBinding
 import com.example.newsmvvm.model.Article
 import com.example.newsmvvm.util.OnArticleClickListener
+import com.example.newsmvvm.util.SortBy
 import com.example.newsmvvm.viewmodel.SearchFragmentViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -32,7 +34,11 @@ class SearchFragment : BaseFragment<SearchNewsFragmentBinding>(SearchNewsFragmen
         initRecycler()
         initAdapter()
         initSearchView()
+        initChips()
         observeViewModel()
+        binding.loadingOrErrorLayout.buttonRetry.setOnClickListener {
+            mAdapter.retry()
+        }
     }
 
     private fun initRecycler() {
@@ -61,11 +67,9 @@ class SearchFragment : BaseFragment<SearchNewsFragmentBinding>(SearchNewsFragmen
                 } else {
                     loadingOrErrorLayout.textViewEmpty.isVisible = false
                 }
-
             }
         }
     }
-
 
     private fun initSearchView() {
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -79,9 +83,24 @@ class SearchFragment : BaseFragment<SearchNewsFragmentBinding>(SearchNewsFragmen
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
+                newText?.let {
+                    if (it.isEmpty()) {
+                        mViewModel.setQuery("android")
+                    }
+                }
                 return true
             }
         })
+    }
+
+    private fun initChips() {
+        binding.sortChipGroup.setOnCheckedChangeListener { _, checkedId ->
+            when (checkedId) {
+                R.id.relevancy -> mViewModel.setChip(SortBy.RELEVANCY.sortBy)
+                R.id.popularity -> mViewModel.setChip(SortBy.POPULARITY.sortBy)
+                R.id.publishedAt -> mViewModel.setChip(SortBy.PUBLISHEDAT.sortBy)
+            }
+        }
     }
 
     private fun observeViewModel() {

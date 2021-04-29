@@ -40,10 +40,12 @@
         <item name="android:textColorHint">#C1D4FD</item>
         <item name="queryBackground">@null</item>
     </style>
+
     <style name="CustomChipStyle" parent="Widget.MaterialComponents.Chip.Filter">
         <item name="chipBackgroundColor">@color/chip_background_color</item>
         <item name="android:textColor">@color/chip_text_color</item>
         <item name="checkedIconTint">@color/white</item>
         <item name="rippleColor">@color/whiteAlpha</item>
+        <item name="android:gravity">center</item>
     </style>
 </resources>

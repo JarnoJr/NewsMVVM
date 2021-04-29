@@ -9,13 +9,14 @@ import java.io.IOException
 class SearchNewsPagingSource(
     private val api: RetroAPI,
     private val query: String,
+    private val sortBy: String,
     private val apiKey: String
 ) : PagingSource<Int, Article>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Article> {
         return try {
             val nextPageNumber = params.key ?: 1
-            val response = api.searchNews(query, nextPageNumber, 20, apiKey)
+            val response = api.searchNews(query, sortBy, nextPageNumber, 20, apiKey)
             val articles = response.articles
             LoadResult.Page(
                 data = articles,

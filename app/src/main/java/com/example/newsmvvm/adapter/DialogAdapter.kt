@@ -17,7 +17,8 @@ import com.example.newsmvvm.util.Consts
 import com.neovisionaries.i18n.CountryCode
 
 private const val TAG = "DialogAdapter"
-class DialogAdapter(private val listener: OnItemClickListener,private val dialog:Dialog) :
+
+class DialogAdapter(private val listener: OnItemClickListener, private val dialog: Dialog) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     companion object {
         const val CATEGORY_TYPE = 1
@@ -84,6 +85,7 @@ class DialogAdapter(private val listener: OnItemClickListener,private val dialog
                 }
             }
         }
+
         fun bind(country: DialogItem) {
             val requestOptions = RequestOptions().placeholder(R.drawable.ic_country)
             val url = "https://www.countryflags.io/" + country.imageUrl + "/flat/64.png"
@@ -157,5 +159,5 @@ class DialogAdapter(private val listener: OnItemClickListener,private val dialog
 
 interface OnItemClickListener {
     fun onDialogClick(category: DialogItem)
-    fun onCountryClick(country:DialogItem)
+    fun onCountryClick(country: DialogItem)
 }

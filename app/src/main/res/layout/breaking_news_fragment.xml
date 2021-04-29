@@ -112,11 +112,9 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:listitem="@layout/news_item" />
 
-
     <include
         android:id="@+id/loadingOrErrorLayout"
-        layout="@layout/loading_error_layout"
-        />
+        layout="@layout/loading_error_layout" />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -17,7 +17,6 @@ class ArticleFragmentViewModel @Inject constructor(
         viewModelScope.launch {
             article.id = repo.insertNew(article).toInt()
         }
-
     }
 
     fun removeArticle(article: Article) {
