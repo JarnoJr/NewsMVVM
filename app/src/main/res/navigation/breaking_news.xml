@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_breakingNewsFragment2_to_articleFragment"
             app:destination="@id/articleFragment" />
+        <action
+            android:id="@+id/action_breakingNewsFragment2_to_dialogFragment"
+            app:destination="@id/dialogFragment" />
     </fragment>
     <fragment
         android:id="@+id/articleFragment"
@@ -23,4 +26,14 @@
             android:name="article"
             app:argType="com.example.newsmvvm.model.Article" />
     </fragment>
+    <dialog
+        android:id="@+id/dialogFragment"
+        android:name="com.example.newsmvvm.view.fragments.DialogFragment"
+        android:label="DialogFragment"
+        tools:layout="@layout/menu_dialog"
+        >
+        <argument
+            android:name="dialogItems"
+            app:argType="com.example.newsmvvm.model.DialogItem[]" />
+    </dialog>
 </navigation>

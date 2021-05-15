@@ -1,6 +1,5 @@
 package com.example.newsmvvm.view.fragments
 
-import android.app.Dialog
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
@@ -12,24 +11,18 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.newsmvvm.R
 import com.example.newsmvvm.adapter.BreakingNewsAdapter
-import com.example.newsmvvm.adapter.DialogAdapter
 import com.example.newsmvvm.adapter.NewsLoadStateAdapter
-import com.example.newsmvvm.adapter.OnItemClickListener
 import com.example.newsmvvm.databinding.BreakingNewsFragmentBinding
 import com.example.newsmvvm.model.Article
 import com.example.newsmvvm.model.DialogItem
 import com.example.newsmvvm.util.OnArticleClickListener
 import com.example.newsmvvm.viewmodel.BreakingNewsViewModel
-import com.neovisionaries.i18n.CountryCode
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
-
-private const val TAG = "BreakingNewsFragment"
 
 @AndroidEntryPoint
 class BreakingNewsFragment :
     BaseFragment<BreakingNewsFragmentBinding>(BreakingNewsFragmentBinding::inflate),
-    OnItemClickListener,
     OnArticleClickListener {
     private val mViewModel by viewModels<BreakingNewsViewModel>()
 
@@ -41,8 +34,19 @@ class BreakingNewsFragment :
         initAdapter()
         observeViewModel()
         initRecycler()
+        val backStackEntry = findNavController().getBackStackEntry(R.id.breakingNewsFragment2)
+        backStackEntry.savedStateHandle.getLiveData<DialogItem>("category")
+            .observe(viewLifecycleOwner) { category ->
+                binding.tvCategory.text = category.title
+            }
+        backStackEntry.savedStateHandle.getLiveData<String>("country")
+            .observe(viewLifecycleOwner) { country ->
+                binding.countryCode.text = country
+            }
         binding.countryCode.text = mViewModel.getCountry()
         binding.tvCategory.text = mViewModel.getCategory()
+
+
         binding.loadingOrErrorLayout.apply {
             buttonRetry.setOnClickListener {
                 mAdapter.retry()
@@ -79,11 +83,19 @@ class BreakingNewsFragment :
         binding.toolbar.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.category -> {
-                    showCategoryDialog()
+                    findNavController().navigate(
+                        BreakingNewsFragmentDirections.actionBreakingNewsFragment2ToDialogFragment(
+                            mViewModel.displayCategories().toTypedArray()
+                        )
+                    )
                     true
                 }
                 R.id.country -> {
-                    showCountryDialog()
+                    findNavController().navigate(
+                        BreakingNewsFragmentDirections.actionBreakingNewsFragment2ToDialogFragment(
+                            mViewModel.displayCountries().toTypedArray()
+                        )
+                    )
                     true
                 }
                 else -> false
@@ -100,31 +112,6 @@ class BreakingNewsFragment :
                 footer = NewsLoadStateAdapter { mAdapter.retry() }
             )
         }
-    }
-
-    private fun showCategoryDialog() {
-        initDialog(1)
-    }
-
-    private fun showCountryDialog() {
-        initDialog(2)
-    }
-
-    private fun initDialog(type: Int) {
-        val dialog = Dialog(requireContext(), R.style.Theme_AppCompat_Light_Dialog_Alert)
-        val view = layoutInflater.inflate(R.layout.menu_dialog, null)
-        val dialogAdapter = DialogAdapter(this, dialog)
-        if (type == 1) dialogAdapter.displayCategories() else dialogAdapter.displayCountries()
-        val binding = com.example.newsmvvm.databinding.MenuDialogBinding.bind(view)
-        binding.categoryList.apply {
-            adapter = dialogAdapter
-            layoutManager = LinearLayoutManager(requireContext())
-        }
-        dialog.setContentView(view)
-        binding.btnCancel.setOnClickListener {
-            dialog.dismiss()
-        }
-        dialog.show()
     }
 
     private fun observeTextFields() {
@@ -144,15 +131,6 @@ class BreakingNewsFragment :
         }
     }
 
-    override fun onDialogClick(item: DialogItem) {
-        binding.tvCategory.text = item.title
-    }
-
-    override fun onCountryClick(country: DialogItem) {
-        val countryCode = country.title
-        val name = CountryCode.findByName(countryCode).get(0)
-        binding.countryCode.text = name.toString()
-    }
 
     override fun onArticleClick(article: Article) {
         val action =
