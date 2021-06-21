@@ -10,6 +10,7 @@ import android.webkit.WebView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
+//import androidx.navigation.fragment.navArgs
 import com.example.newsmvvm.R
 import com.example.newsmvvm.databinding.ArticleFragmentBinding
 import com.example.newsmvvm.viewmodel.ArticleFragmentViewModel
