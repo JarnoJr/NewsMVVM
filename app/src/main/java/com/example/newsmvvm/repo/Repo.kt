@@ -1,18 +1,21 @@
 package com.example.newsmvvm.repo
 
+import android.content.Context
+import android.content.pm.PackageManager
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import com.example.newsmvvm.local.NewsDao
 import com.example.newsmvvm.model.Article
 import com.example.newsmvvm.network.RetroAPI
-import com.example.newsmvvm.util.Consts.Companion.API_KEY
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class Repo @Inject constructor(
     private val retroAPI: RetroAPI,
-    private val dao: NewsDao
+    private val dao: NewsDao,
+    @ApplicationContext private val context: Context
 ) {
     fun getNews(countryCode: String, category: String): Pager<Int, Article> {
         return Pager(
@@ -21,7 +24,7 @@ class Repo @Inject constructor(
                 maxSize = 100,
                 enablePlaceholders = false
             ),
-            pagingSourceFactory = { NewsPagingSource(retroAPI, countryCode, category, API_KEY) }
+            pagingSourceFactory = { NewsPagingSource(retroAPI, countryCode, category, getApiKey()) }
         )
     }
 
@@ -39,7 +42,15 @@ class Repo @Inject constructor(
                 maxSize = 100,
                 enablePlaceholders = false
             ),
-            pagingSourceFactory = { SearchNewsPagingSource(retroAPI, query, sortBy, API_KEY) }
+            pagingSourceFactory = { SearchNewsPagingSource(retroAPI, query, sortBy, getApiKey()) }
         )
+    }
+
+    private fun getApiKey(): String {
+        val ai = context.packageManager.getApplicationInfo(
+            context.packageName,
+            PackageManager.GET_META_DATA
+        )
+        return ai.metaData["apiKey"].toString()
     }
 }

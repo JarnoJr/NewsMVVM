@@ -2,13 +2,10 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
-    id 'dagger.hilt.android.plugin'
     id 'kotlin-parcelize'
-    id 'androidx.navigation.safeargs'
+    id 'com.google.secrets_gradle_plugin' version '0.4'
 }
 
-def API_KEY = API_KEY
-def STRING = 'String'
 
 android {
     compileSdkVersion 30
@@ -22,10 +19,6 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
-        each { type ->
-            type.buildConfigField STRING, 'ApiKey', API_KEY
-        }
     }
 
     buildTypes {
