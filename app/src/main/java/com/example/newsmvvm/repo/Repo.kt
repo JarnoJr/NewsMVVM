@@ -4,9 +4,9 @@ import android.content.Context
 import android.content.pm.PackageManager
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
-import com.example.newsmvvm.local.NewsDao
-import com.example.newsmvvm.model.Article
-import com.example.newsmvvm.network.RetroAPI
+import com.example.newsmvvm.framework.datasource.cache.database.dao.NewsDao
+import com.example.newsmvvm.business.domain.model.Article
+import com.example.newsmvvm.framework.datasource.network.RetroAPI
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton

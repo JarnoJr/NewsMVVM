@@ -1,7 +1,7 @@
 package com.example.newsmvvm.util
 
 import androidx.room.TypeConverter
-import com.example.newsmvvm.model.Source
+import com.example.newsmvvm.business.domain.model.Source
 
 class Conventers {
     @TypeConverter

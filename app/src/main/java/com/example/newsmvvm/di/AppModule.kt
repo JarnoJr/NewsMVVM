@@ -2,9 +2,9 @@ package com.example.newsmvvm.di
 
 import android.content.Context
 import androidx.room.Room
-import com.example.newsmvvm.local.AppDatabase
-import com.example.newsmvvm.local.NewsDao
-import com.example.newsmvvm.network.RetroAPI
+import com.example.newsmvvm.framework.datasource.cache.database.AppDatabase
+import com.example.newsmvvm.framework.datasource.cache.database.dao.NewsDao
+import com.example.newsmvvm.framework.datasource.network.RetroAPI
 import com.example.newsmvvm.util.Consts.Companion.BASE_URL
 import com.example.newsmvvm.util.Consts.Companion.CONNECTION_TIMEOUT
 import com.example.newsmvvm.util.Consts.Companion.READ_TIMEOUT
@@ -64,7 +64,7 @@ object AppModule {
         return Room.databaseBuilder(context, AppDatabase::class.java, "NewsDb").fallbackToDestructiveMigration().build()
     }
     @Provides
-    fun provideDao(appDatabase: AppDatabase):NewsDao{
+    fun provideDao(appDatabase: AppDatabase): NewsDao {
         return appDatabase.newsDao()
     }
 }

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/favouritesFragment2"
-        android:name="com.example.newsmvvm.view.fragments.FavouritesFragment"
+        android:name="com.example.newsmvvm.framework.presentation.view.fragments.FavouritesFragment"
         tools:layout="@layout/favourites_fragment"
         android:label="FavouritesFragment" >
         <action
@@ -20,10 +20,10 @@
     </fragment>
     <fragment
         android:id="@+id/articleFragment2"
-        android:name="com.example.newsmvvm.view.fragments.ArticleFragment"
+        android:name="com.example.newsmvvm.framework.presentation.view.fragments.ArticleFragment"
         android:label="ArticleFragment" >
         <argument
             android:name="article"
-            app:argType="com.example.newsmvvm.model.Article" />
+            app:argType="com.example.newsmvvm.business.domain.model.Article" />
     </fragment>
 </navigation>

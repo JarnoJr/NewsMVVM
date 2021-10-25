@@ -1,8 +1,8 @@
 package com.example.newsmvvm.repo
 
 import androidx.paging.PagingSource
-import com.example.newsmvvm.model.Article
-import com.example.newsmvvm.network.RetroAPI
+import com.example.newsmvvm.business.domain.model.Article
+import com.example.newsmvvm.framework.datasource.network.RetroAPI
 import retrofit2.HttpException
 import java.io.IOException
 
@@ -37,5 +37,4 @@ class NewsPagingSource(
             return LoadResult.Error(exception)
         }
     }
-
 }
