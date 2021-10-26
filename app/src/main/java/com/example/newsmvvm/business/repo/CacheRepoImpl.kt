@@ -30,7 +30,7 @@ class CacheRepoImpl @Inject constructor(
     ): Flow<PagingData<ArticleEntity>> {
         return Pager(
             config = PagingConfig(
-                pageSize = PAGE_SIZE,
+                pageSize = 40,
                 maxSize = 100,
                 enablePlaceholders = false,
                 prefetchDistance = 2

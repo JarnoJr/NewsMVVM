@@ -5,8 +5,8 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class DialogItem(
-    var title: String = "",
-    var imageUrl: String = ""
-):Parcelable
+    val text: String,
+    var isChecked: Boolean = false
+) : Parcelable
 
 

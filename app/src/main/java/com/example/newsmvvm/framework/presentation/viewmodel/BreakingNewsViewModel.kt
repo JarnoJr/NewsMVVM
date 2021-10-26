@@ -1,72 +1,45 @@
 package com.example.newsmvvm.framework.presentation.viewmodel
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import androidx.paging.cachedIn
-import androidx.paging.liveData
-import com.example.newsmvvm.business.domain.model.DialogItem
-import com.example.newsmvvm.business.repo.CacheRepoImpl
-import com.example.newsmvvm.util.Constants
-import com.example.newsmvvm.util.DoubleTrigger
+import androidx.paging.PagingData
+import com.example.newsmvvm.business.domain.model.Article
+import com.example.newsmvvm.business.usecase.GetArticlesUseCase
 import com.neovisionaries.i18n.CountryCode
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flatMapLatest
 import javax.inject.Inject
 
 
 @HiltViewModel
 class BreakingNewsViewModel
 @Inject constructor(
-    private val repo: CacheRepoImpl
+    private val useCase: GetArticlesUseCase
 ) : ViewModel() {
 
-    private val countryCode = MutableLiveData<String>()
-    private val category = MutableLiveData<String>()
+    private val country = MutableStateFlow("us")
 
-    init {
-        countryCode.value = "us"
-        category.value = "general"
+    private val category = MutableStateFlow("general")
+
+    val articles = combine(
+        country,
+        category,
+        ::Pair
+    ).flatMapLatest {
+        getArticles(it.first, it.second)
     }
 
-    val news =
-        Transformations.switchMap(DoubleTrigger(countryCode, category)) {
-            repo.getNews(it.first!!, it.second!!).liveData.cachedIn(viewModelScope)
-        }
+    private fun getArticles(country: String, category: String): Flow<PagingData<Article>> {
+        return useCase.getArticles(country, category)
+    }
 
     fun setCountry(country: String) {
-        countryCode.value = country
+        this.country.value = CountryCode.findByName(country)[0].toString().lowercase()
     }
 
     fun setCategory(category: String) {
         this.category.value = category
-    }
-
-    fun getCountry(): String = countryCode.value!!.toUpperCase()
-
-    fun getCategory(): String = category.value!!.capitalize()
-
-    fun displayCategories(): List<DialogItem> {
-        val categories = mutableListOf<DialogItem>()
-        for (i in Constants.CATEGORIES.indices) {
-            val category = DialogItem()
-            category.title = Constants.CATEGORIES[i]
-            category.imageUrl = Constants.CATEGORIES[i]
-            categories.add(category)
-        }
-        return categories
-    }
-
-    fun displayCountries(): List<DialogItem> {
-        val countries = mutableListOf<DialogItem>()
-        for (i in Constants.COUNTRIES.indices) {
-            val country = DialogItem()
-            val cc = CountryCode.getByAlpha2Code(Constants.COUNTRIES[i].toUpperCase())
-            val countryName = cc.getName()
-            country.title = countryName
-            country.imageUrl = cc.toString().toLowerCase()
-            countries.add(country)
-        }
-        return countries
     }
 }

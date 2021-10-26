@@ -56,7 +56,7 @@ class NewsRemoteMediator constructor(
                 apiKey = (context.packageManager.getApplicationInfo(
                     context.packageName,
                     PackageManager.GET_META_DATA
-                ).metaData["keyValue"].toString()),
+                ).metaData["apiKey"].toString()),
                 category = category,
                 country = country
             )

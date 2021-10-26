@@ -1,33 +1,25 @@
 package com.example.newsmvvm.framework.adapter
 
-import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.example.newsmvvm.R
-import com.example.newsmvvm.databinding.NewsItemBinding
 import com.example.newsmvvm.business.domain.model.Article
-import com.example.newsmvvm.util.DateUtil
+import com.example.newsmvvm.databinding.NewsItemBinding
 import com.example.newsmvvm.util.GlideUtil
-import com.example.newsmvvm.util.OnArticleClickListener
-import dagger.hilt.android.scopes.FragmentScoped
+import com.example.newsmvvm.util.ItemClickListener
 import javax.inject.Inject
 
-@FragmentScoped
+
 class BreakingNewsAdapter @Inject constructor(
     private val glideUtil: GlideUtil
 ) :
     PagingDataAdapter<Article, BreakingNewsAdapter.BreakingNewsHolder>(NEWS_COMPARATOR) {
 
+    private lateinit var listener:ItemClickListener<Article>
 
-    private lateinit var listener: OnArticleClickListener
-
-    fun setOnClickListener(onClickListener: OnArticleClickListener) {
+    fun setOnClickListener(onClickListener: ItemClickListener<Article>) {
         this.listener = onClickListener
     }
 
@@ -43,7 +35,6 @@ class BreakingNewsAdapter @Inject constructor(
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: BreakingNewsHolder, position: Int) {
         val currentArticle = getItem(position)
         currentArticle?.let {
@@ -60,29 +51,15 @@ class BreakingNewsAdapter @Inject constructor(
                 if (position != RecyclerView.NO_POSITION) {
                     val item = getItem(position)
                     if (item != null) {
-                        listener.onArticleClick(item)
+                        listener.onClick(item)
                     }
                 }
 
             }
         }
 
-        @RequiresApi(Build.VERSION_CODES.O)
         fun bind(article: Article) {
-            binding.apply {
-                Glide.with(itemView)
-                    .load(article.urlToImage)
-                    .centerCrop()
-                    .placeholder(glideUtil.progressUtil(itemView.context))
-                    .transition(DrawableTransitionOptions.withCrossFade())
-                    .error(R.drawable.ic_error)
-                    .into(ivNews)
-
-                tvNewsTitle.text = article.title
-                tvAuthor.text = article.author
-                tvDate.text = DateUtil.convertDate(article.publishedAt!!)
-
-            }
+            binding.article = article
         }
     }
 
@@ -90,9 +67,5 @@ class BreakingNewsAdapter @Inject constructor(
         val binding = NewsItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return BreakingNewsHolder(binding)
     }
-
-//    interface onItemClickListener {
-//        fun onArticleClick(article: Article)
-//    }
 }
 

@@ -2,8 +2,9 @@ package com.example.newsmvvm.business.domain.model
 
 import android.os.Parcelable
 import com.example.newsmvvm.util.convertToNewFormat
+import kotlinx.parcelize.Parcelize
 
-@kotlinx.parcelize.Parcelize
+@Parcelize
 data class Article(
     val source: Source? = null,
     val author: String?,

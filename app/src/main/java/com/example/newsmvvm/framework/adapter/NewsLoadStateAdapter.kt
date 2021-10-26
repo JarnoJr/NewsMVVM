@@ -8,7 +8,9 @@ import androidx.paging.LoadStateAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.newsmvvm.databinding.LoadStateFooterBinding
 
-class NewsLoadStateAdapter(private val retry:() -> Unit) : LoadStateAdapter<NewsLoadStateAdapter.LoadStateViewHolder>() {
+
+class NewsLoadStateAdapter(private val retry: () -> Unit) :
+    LoadStateAdapter<NewsLoadStateAdapter.LoadStateViewHolder>() {
 
     inner class LoadStateViewHolder(private val binding: LoadStateFooterBinding) :
         RecyclerView.ViewHolder(binding.root) {

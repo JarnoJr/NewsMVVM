@@ -11,29 +11,16 @@
         tools:layout="@layout/breaking_news_fragment"
         android:label="BreakingNewsFragment" >
         <action
-            android:id="@+id/action_breakingNewsFragment2_to_articleFragment"
-            app:destination="@id/articleFragment" />
-        <action
             android:id="@+id/action_breakingNewsFragment2_to_dialogFragment"
             app:destination="@id/dialogFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/articleFragment"
-        android:name="com.example.newsmvvm.framework.presentation.view.fragments.ArticleFragment"
-        android:label="ArticleFragment"
-        tools:layout="@layout/article_fragment">
-        <argument
-            android:name="article"
-            app:argType="com.example.newsmvvm.business.domain.model.Article" />
-    </fragment>
     <dialog
         android:id="@+id/dialogFragment"
+        tools:layout="@layout/dialog_fragment"
         android:name="com.example.newsmvvm.framework.presentation.view.fragments.DialogFragment"
-        android:label="DialogFragment"
-        tools:layout="@layout/menu_dialog"
-        >
+        android:label="DialogFragment" >
         <argument
-            android:name="dialogItems"
+            android:name="items"
             app:argType="com.example.newsmvvm.business.domain.model.DialogItem[]" />
     </dialog>
 </navigation>

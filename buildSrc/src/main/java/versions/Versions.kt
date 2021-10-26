@@ -7,7 +7,7 @@ object Versions {
     const val interceptor_version = "4.9.0"
     const val gson_converter_version = "2.9.0"
     const val lifecycle_version = "2.3.1"
-    const val nav_version = "2.3.0-alpha10"
+    const val nav_version = "2.4.0-alpha10"
     const val hilt_version = "2.38.1"
     const val room_version = "2.3.0"
     const val hilt_view_model_version = "1.0.0-alpha03"

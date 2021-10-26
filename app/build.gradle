@@ -15,13 +15,13 @@ plugins {
 
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
     buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId Application.id
         minSdkVersion 21
-        targetSdkVersion 30
+        targetSdkVersion 31
         versionCode 1
         versionName Application.version_name
 
@@ -42,8 +42,8 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-    buildFeatures {
-        viewBinding true
+    buildFeatures{
+        dataBinding true
     }
 
     kapt {

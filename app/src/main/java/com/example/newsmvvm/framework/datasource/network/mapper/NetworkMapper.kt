@@ -13,8 +13,8 @@ class NetworkMapper @Inject constructor() : DTOMapper<ArticleDTO, ArticleEntity>
             author = dto.author ?: "",
             content = dto.content ?:"",
             description = dto.description ?: "",
-            publishedAt = dto.publishedAt,
-            title = dto.title,
+            publishedAt = dto.publishedAt ?: "",
+            title = dto.title ?: "",
             url = dto.url,
             urlToImage = dto.urlToImage ?: ""
         )
