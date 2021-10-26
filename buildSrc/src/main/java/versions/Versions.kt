@@ -22,4 +22,5 @@ object Versions {
     const val timber_version = "4.7.1"
     const val gradle = "7.0.0"
     const val kotlin ="1.5.21"
+    const val datastore_version =  "1.0.0"
 }

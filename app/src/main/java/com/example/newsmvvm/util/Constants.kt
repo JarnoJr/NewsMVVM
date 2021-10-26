@@ -8,6 +8,11 @@ object Constants {
     const val WRITE_TIMEOUT: Long = 30
     const val DB_NAME = "NewsDB"
     const val STARTING_PAGE_INDEX = 1
-    const val CATEGORY_KEY = "category"
-    const val COUNTRY_KEY = "country"
+    const val CATEGORY_KEY = "category_key"
+    const val COUNTRY_KEY = "country_key"
+    const val NEWS_DATASTORE = "datastore"
+    const val DEFAULT_COUNTRY = "us"
+    const val DEFAULT_CATEGORY = "general"
+    const val SELECTED_COUNTRY = "country"
+    const val SELECTED_CATEGORY = "category"
 }

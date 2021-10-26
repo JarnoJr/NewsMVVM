@@ -1,7 +1,9 @@
 package com.example.newsmvvm.framework.presentation.view.fragments
 
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
 import com.example.newsmvvm.R
 import com.example.newsmvvm.business.domain.model.Article
 import com.example.newsmvvm.business.domain.model.DialogItem
@@ -16,6 +18,7 @@ import com.example.newsmvvm.util.Constants
 import com.example.newsmvvm.util.Constants.COUNTRY_KEY
 import com.example.newsmvvm.util.ItemClickListener
 import com.example.newsmvvm.util.getNavigationResult
+import com.neovisionaries.i18n.CountryCode
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
@@ -33,12 +36,25 @@ class BreakingNewsFragment :
     override fun init() {
         initRecycler()
         subscribeObservers()
-        mAdapter.setOnClickListener(this)
         initToolbarMenu()
     }
 
     private fun initRecycler() {
-        binding.adapter = mAdapter
+        binding.adapter = mAdapter.withLoadStateHeaderAndFooter(
+            header = NewsLoadStateAdapter { mAdapter.retry() },
+            footer = NewsLoadStateAdapter { mAdapter.retry() }
+        )
+        mAdapter.apply {
+            setOnClickListener(this@BreakingNewsFragment)
+            addLoadStateListener { loadState ->
+                val isEmpty = loadState.refresh is LoadState.NotLoading && itemCount == 0
+                binding.errorLayout.buttonRetry.isVisible =
+                    loadState.source.refresh is LoadState.Error
+                binding.rvBreakingNews.isVisible = !isEmpty
+                binding.errorLayout.textViewError.isVisible = isEmpty
+                showProgress(loadState.source.refresh is LoadState.Loading)
+            }
+        }
     }
 
     private fun subscribeObservers() {
@@ -48,10 +64,10 @@ class BreakingNewsFragment :
             }
         }
         getNavigationResult<DialogItem>(R.id.breakingNewsFragment2, Constants.CATEGORY_KEY) {
-            mViewModel.setCategory(it.text)
+            mViewModel.updateCategory(it.text)
         }
         getNavigationResult<DialogItem>(R.id.breakingNewsFragment2, COUNTRY_KEY) {
-            mViewModel.setCountry(it.text)
+            mViewModel.updateCountry(it.text)
         }
     }
 
@@ -59,10 +75,26 @@ class BreakingNewsFragment :
         binding.toolbar.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.country -> {
-                    showDialog(getCountries(requireContext()))
+                    val countries = getCountries(requireContext())
+                        .map { country ->
+                            if (country.text == CountryCode.getByAlpha2Code(mViewModel.selectedCountry.uppercase())
+                                    .getName()
+                            ) {
+                                country.isChecked = true
+                            }
+                            country
+                        }
+                    showDialog(countries)
                 }
                 R.id.category -> {
-                    showDialog(getCategories(requireContext()))
+                    val categories = getCategories(requireContext())
+                        .map { category ->
+                            if (category.text.lowercase() == mViewModel.selectedCategory) {
+                                category.isChecked = true
+                            }
+                            category
+                        }
+                    showDialog(categories)
                 }
             }
             true
@@ -76,7 +108,7 @@ class BreakingNewsFragment :
     }
 
     override fun onClick(item: Article) {
-        // TODO: 26.10.2021 handle on click
+
     }
 
     override val layoutId: Int

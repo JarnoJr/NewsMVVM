@@ -105,6 +105,9 @@ dependencies {
     //coroutines
     implementation Dependencies.coroutines
 
+    //datastore
+    implementation Dependencies.data_store
+
 
 
     implementation 'com.neovisionaries:nv-i18n:1.27'

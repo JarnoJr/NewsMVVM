@@ -8,8 +8,10 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
+import com.example.newsmvvm.framework.presentation.viewmodel.MainActivityViewModel
 
 abstract class BaseFragment<DB : ViewDataBinding, VM : ViewModel> : Fragment() {
 
@@ -21,6 +23,8 @@ abstract class BaseFragment<DB : ViewDataBinding, VM : ViewModel> : Fragment() {
     abstract val layoutId: Int
 
     abstract fun getVM(): VM
+
+    private val activityViewModel by activityViewModels<MainActivityViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,6 +49,10 @@ abstract class BaseFragment<DB : ViewDataBinding, VM : ViewModel> : Fragment() {
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
             execute()
         }
+    }
+
+    fun showProgress(show: Boolean) {
+        activityViewModel.setShowProgress(show)
     }
 
     abstract fun init()

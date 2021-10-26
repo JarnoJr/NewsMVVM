@@ -46,4 +46,7 @@ object Dependencies {
 
     //coroutines
     const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
+
+    //datastore
+    const val data_store = "androidx.datastore:datastore-preferences:${Versions.datastore_version}"
 }
