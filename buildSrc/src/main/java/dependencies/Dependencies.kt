@@ -13,7 +13,6 @@ import versions.Versions.timber_version
 
 object Dependencies {
     //Navigation Component
-    const val navigation_runtime = "androidx.navigation:navigation-runtime-ktx:$nav_version"
     const val navigation_fragment_ktx = "androidx.navigation:navigation-fragment-ktx:$nav_version"
     const val navigation_ui = "androidx.navigation:navigation-ui-ktx:$nav_version"
 

@@ -1,5 +1,6 @@
 package com.example.newsmvvm.business.domain.model
 
+import com.example.newsmvvm.framework.datasource.network.model.ArticleDTO
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
@@ -12,5 +13,5 @@ data class NewsResponse(
     val totalResults: Int,
     @SerializedName("articles")
     @Expose
-    val articles: List<Article>
+    val articles: List<ArticleDTO>
 )

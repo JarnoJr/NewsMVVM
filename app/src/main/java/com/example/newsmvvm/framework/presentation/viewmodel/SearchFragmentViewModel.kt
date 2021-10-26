@@ -4,16 +4,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.cachedIn
-import androidx.paging.liveData
-import com.example.newsmvvm.repo.Repo
+import com.example.newsmvvm.business.repo.CacheRepoImpl
 import com.example.newsmvvm.util.DoubleTrigger
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class SearchFragmentViewModel @Inject constructor(
-    private val repo: Repo
+    private val repo: CacheRepoImpl
 ) : ViewModel() {
     private val currentQuery = MutableLiveData<String>()
     private val sortBy = MutableLiveData<String>()

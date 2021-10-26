@@ -1,18 +1,13 @@
 package com.example.newsmvvm.di
 
-import android.content.Context
-import androidx.room.Room
-import com.example.newsmvvm.framework.datasource.cache.database.AppDatabase
-import com.example.newsmvvm.framework.datasource.cache.database.dao.NewsDao
-import com.example.newsmvvm.framework.datasource.network.RetroAPI
-import com.example.newsmvvm.util.Consts.Companion.BASE_URL
-import com.example.newsmvvm.util.Consts.Companion.CONNECTION_TIMEOUT
-import com.example.newsmvvm.util.Consts.Companion.READ_TIMEOUT
-import com.example.newsmvvm.util.Consts.Companion.WRITE_TIMEOUT
+import com.example.newsmvvm.framework.datasource.network.NewsApi
+import com.example.newsmvvm.util.Constants.BASE_URL
+import com.example.newsmvvm.util.Constants.CONNECTION_TIMEOUT
+import com.example.newsmvvm.util.Constants.READ_TIMEOUT
+import com.example.newsmvvm.util.Constants.WRITE_TIMEOUT
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -23,7 +18,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object AppModule {
+object NetworkModule {
     @Singleton
     @Provides
     fun provideHttpInterceptor(): HttpLoggingInterceptor {
@@ -54,17 +49,7 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideRetroApi(retrofit: Retrofit): RetroAPI {
-        return retrofit.create(RetroAPI::class.java)
-    }
-
-    @Singleton
-    @Provides
-    fun provideDatabase(@ApplicationContext context: Context): AppDatabase {
-        return Room.databaseBuilder(context, AppDatabase::class.java, "NewsDb").fallbackToDestructiveMigration().build()
-    }
-    @Provides
-    fun provideDao(appDatabase: AppDatabase): NewsDao {
-        return appDatabase.newsDao()
+    fun provideRetroApi(retrofit: Retrofit): NewsApi {
+        return retrofit.create(NewsApi::class.java)
     }
 }

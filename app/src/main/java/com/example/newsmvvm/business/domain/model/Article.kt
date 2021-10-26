@@ -1,41 +1,20 @@
 package com.example.newsmvvm.business.domain.model
 
 import android.os.Parcelable
-import androidx.room.Entity
-import androidx.room.Index
-import androidx.room.PrimaryKey
-import com.google.gson.annotations.Expose
-import com.google.gson.annotations.SerializedName
-import kotlinx.android.parcel.Parcelize
+import com.example.newsmvvm.util.convertToNewFormat
 
-@Parcelize
-@Entity(tableName = "articles", indices = [Index(value = ["title"], unique = true)])
+@kotlinx.parcelize.Parcelize
 data class Article(
-    @SerializedName("source")
-    @Expose
-    val source: Source,
-    @SerializedName("author")
-    @Expose
+    val source: Source? = null,
     val author: String?,
-    @SerializedName("title")
-    @Expose
-    val title: String?,
-    @SerializedName("description")
-    @Expose
+    val title: String,
     val description: String?,
-    @SerializedName("url")
-    @Expose
-    val url: String?,
-    @SerializedName("urlToImage")
-    @Expose
-    val urlToImage: String?,
-    @SerializedName("publishedAt")
-    @Expose
-    val publishedAt: String?,
-    @SerializedName("content")
-    @Expose
-    val content: String?,
-    @PrimaryKey
-    var id: Int? = null,
-    var isChecked: Boolean = false,
-) : Parcelable
+    val url: String,
+    val urlToImage: String,
+    val publishedAt: String,
+    val content: String?
+) : Parcelable {
+    fun getFormattedDate(): String {
+        return publishedAt.convertToNewFormat()
+    }
+}

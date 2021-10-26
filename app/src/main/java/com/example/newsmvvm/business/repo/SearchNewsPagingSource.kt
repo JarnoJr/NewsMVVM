@@ -1,13 +1,13 @@
-package com.example.newsmvvm.repo
+package com.example.newsmvvm.business.repo
 
 import androidx.paging.PagingSource
 import com.example.newsmvvm.business.domain.model.Article
-import com.example.newsmvvm.framework.datasource.network.RetroAPI
+import com.example.newsmvvm.framework.datasource.network.NewsApi
 import retrofit2.HttpException
 import java.io.IOException
 
 class SearchNewsPagingSource(
-    private val api: RetroAPI,
+    private val api: NewsApi,
     private val query: String,
     private val sortBy: String,
     private val apiKey: String

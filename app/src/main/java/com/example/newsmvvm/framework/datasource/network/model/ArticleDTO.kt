@@ -22,7 +22,7 @@ data class ArticleDTO(
     val description: String?,
     @SerializedName("url")
     @Expose
-    val url: String?,
+    val url: String,
     @SerializedName("urlToImage")
     @Expose
     val urlToImage: String?,

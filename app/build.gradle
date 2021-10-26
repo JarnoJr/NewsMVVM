@@ -66,7 +66,6 @@ dependencies {
 
     /*Dependencies*/
     //Navigation Component
-    implementation Dependencies.navigation_runtime
     implementation Dependencies.navigation_fragment_ktx
     implementation Dependencies.navigation_ui
     //fragment-ktx

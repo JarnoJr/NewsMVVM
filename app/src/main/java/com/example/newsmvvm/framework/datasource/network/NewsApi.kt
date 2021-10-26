@@ -4,11 +4,11 @@ import com.example.newsmvvm.business.domain.model.NewsResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface RetroAPI {
+interface NewsApi {
 
     @GET("/v2/top-headlines")
     suspend fun getTopNews(
-        @Query("country") countryCode: String,
+        @Query("country") country: String,
         @Query("category") category: String,
         @Query("page") page: Int,
         @Query("pageSize") perPage: Int,
