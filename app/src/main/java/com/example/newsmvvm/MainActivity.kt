@@ -41,5 +41,8 @@ class MainActivity : AppCompatActivity() {
                 mBinding.show = it
             }
         }
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            mBinding.showBottomNav = destination.id != R.id.articleFragment
+        }
     }
 }

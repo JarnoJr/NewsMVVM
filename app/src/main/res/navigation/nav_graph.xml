@@ -1,11 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@+id/breakingNewsFragment">
-
-    <include app:graph="@navigation/breaking_news" />
-    <include app:graph="@navigation/favourites" />
-    <include app:graph="@navigation/search_fragment" />
-
+    app:startDestination="@id/breakingNewsFragment">
+    <fragment
+        android:id="@+id/articleFragment"
+        tools:layout="@layout/article_fragment"
+        android:name="com.example.newsmvvm.framework.presentation.view.fragments.ArticleFragment"
+        android:label="ArticleFragment" >
+        <argument
+            android:name="article"
+            app:argType="com.example.newsmvvm.business.domain.model.Article" />
+    </fragment>
+    <fragment
+        android:id="@+id/breakingNewsFragment"
+        tools:layout="@layout/breaking_news_fragment"
+        android:name="com.example.newsmvvm.framework.presentation.view.fragments.BreakingNewsFragment"
+        android:label="BreakingNewsFragment" >
+        <action
+            android:id="@+id/action_breakingNewsFragment_to_articleFragment"
+            app:destination="@id/articleFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_breakingNewsFragment_to_dialogFragment"
+            app:destination="@id/dialogFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/favouritesFragment"
+        tools:layout="@layout/favourites_fragment"
+        android:name="com.example.newsmvvm.framework.presentation.view.fragments.FavouritesFragment"
+        android:label="FavouritesFragment" >
+        <action
+            android:id="@+id/action_favouritesFragment_to_articleFragment"
+            app:destination="@id/articleFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+    </fragment>
+    <dialog
+        android:id="@+id/dialogFragment"
+        tools:layout="@layout/dialog_fragment"
+        android:name="com.example.newsmvvm.framework.presentation.view.fragments.DialogFragment"
+        android:label="DialogFragment" >
+        <argument
+            android:name="items"
+            app:argType="com.example.newsmvvm.business.domain.model.DialogItem[]" />
+    </dialog>
 </navigation>

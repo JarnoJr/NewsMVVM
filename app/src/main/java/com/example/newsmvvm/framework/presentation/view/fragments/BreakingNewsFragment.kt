@@ -70,10 +70,10 @@ class BreakingNewsFragment :
                 mAdapter.submitData(it)
             }
         }
-        getNavigationResult<DialogItem>(R.id.breakingNewsFragment2, Constants.CATEGORY_KEY) {
+        getNavigationResult<DialogItem>(R.id.breakingNewsFragment, Constants.CATEGORY_KEY) {
             mViewModel.updateCategory(it.text)
         }
-        getNavigationResult<DialogItem>(R.id.breakingNewsFragment2, COUNTRY_KEY) {
+        getNavigationResult<DialogItem>(R.id.breakingNewsFragment, COUNTRY_KEY) {
             mViewModel.updateCountry(it.text)
         }
     }
@@ -110,20 +110,23 @@ class BreakingNewsFragment :
 
     private fun showDialog(list: List<DialogItem>) {
         val action =
-            BreakingNewsFragmentDirections.actionBreakingNewsFragment2ToDialogFragment(list.toTypedArray())
+            BreakingNewsFragmentDirections.actionBreakingNewsFragmentToDialogFragment(list.toTypedArray())
         findNavController().navigate(action)
     }
 
     override fun onClick(item: Article) {
         val action =
-            BreakingNewsFragmentDirections.actionBreakingNewsFragment2ToArticleFragment(item)
+            BreakingNewsFragmentDirections.actionBreakingNewsFragmentToArticleFragment(item)
         findNavController().navigate(action)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        showProgress(false)
     }
 
     override val layoutId: Int
         get() = R.layout.breaking_news_fragment
 
     override fun getVM(): BreakingNewsViewModel = mViewModel
-
-
 }

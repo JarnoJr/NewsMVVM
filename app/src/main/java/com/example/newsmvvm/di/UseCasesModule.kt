@@ -1,9 +1,6 @@
 package com.example.newsmvvm.di
 
-import com.example.newsmvvm.business.usecase.ArticleUseCase
-import com.example.newsmvvm.business.usecase.ArticleUseCaseImpl
-import com.example.newsmvvm.business.usecase.GetArticlesUseCase
-import com.example.newsmvvm.business.usecase.GetArticlesUseCaseImpl
+import com.example.newsmvvm.business.usecase.*
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -18,5 +15,8 @@ interface UseCasesModule {
 
     @Binds
     fun bindArticleUseCase(articleUseCaseImpl: ArticleUseCaseImpl):ArticleUseCase
+
+    @Binds
+    fun bindFavoritesUseCase(favoritesUseCaseImpl: FavoritesUseCaseImpl):FavoritesUseCase
 
 }

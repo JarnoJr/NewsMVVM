@@ -24,7 +24,7 @@ abstract class BaseFragment<DB : ViewDataBinding, VM : ViewModel> : Fragment() {
 
     abstract fun getVM(): VM
 
-    private val activityViewModel by activityViewModels<MainActivityViewModel>()
+    val activityViewModel by activityViewModels<MainActivityViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,11 +45,11 @@ abstract class BaseFragment<DB : ViewDataBinding, VM : ViewModel> : Fragment() {
         init()
     }
 
-    fun launchOnLifecycleScope(execute: suspend () -> Unit) {
-        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+    fun launchOnLifecycleScope(execute: suspend () -> Unit) =
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             execute()
         }
-    }
+
 
     fun showProgress(show: Boolean) {
         activityViewModel.setShowProgress(show)

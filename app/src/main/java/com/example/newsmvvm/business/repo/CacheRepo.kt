@@ -17,4 +17,6 @@ interface CacheRepo {
     suspend fun insertArticle(article:FavoriteEntity)
 
     suspend fun removeArticle(article:FavoriteEntity)
+
+    fun favorites():Flow<List<FavoriteEntity>>
 }

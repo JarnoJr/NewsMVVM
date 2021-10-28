@@ -3,6 +3,7 @@
     <string name="article_image">article image</string>
     <string name="no_result">Results could not be loaded</string>
     <string name="retry">Retry</string>
+    <string name="no_favorite">No Favorite</string>
 
     <string-array name="categories">
         <item>Business</item>

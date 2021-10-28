@@ -10,6 +10,6 @@
     <color name="primaryColor">#2573FA</color>
     <color name="secondaryColor">#C1D4FD</color>
     <color name="whiteAlpha">#10FFFFFF</color>
-    <color name="favourite">#C12020</color>
+    <color name="error">#C12020</color>
     <color name="success">#4BB543</color>
 </resources>

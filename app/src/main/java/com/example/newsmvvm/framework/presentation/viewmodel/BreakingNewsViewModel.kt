@@ -10,6 +10,7 @@ import com.example.newsmvvm.util.PreferencesManager
 import com.neovisionaries.i18n.CountryCode
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.cancellable
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject

@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.example.newsmvvm.business.domain.model.Article
 import com.example.newsmvvm.databinding.NewsItemBinding
-import com.example.newsmvvm.util.GlideUtil
 import com.example.newsmvvm.util.ItemClickListener
 import javax.inject.Inject
 

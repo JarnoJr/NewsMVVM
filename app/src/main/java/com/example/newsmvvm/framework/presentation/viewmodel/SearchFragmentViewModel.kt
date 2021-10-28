@@ -1,12 +1,7 @@
 package com.example.newsmvvm.framework.presentation.viewmodel
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.newsmvvm.business.repo.CacheRepo
-import com.example.newsmvvm.business.repo.CacheRepoImpl
-import com.example.newsmvvm.util.DoubleTrigger
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

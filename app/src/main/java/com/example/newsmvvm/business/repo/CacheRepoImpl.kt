@@ -2,6 +2,7 @@ package com.example.newsmvvm.business.repo
 
 import android.content.Context
 import androidx.paging.*
+import com.example.newsmvvm.business.domain.model.Article
 import com.example.newsmvvm.framework.datasource.cache.database.AppDatabase
 import com.example.newsmvvm.framework.datasource.cache.database.model.ArticleEntity
 import com.example.newsmvvm.framework.datasource.cache.database.model.FavoriteEntity
@@ -57,5 +58,9 @@ class CacheRepoImpl @Inject constructor(
 
     override suspend fun removeArticle(article: FavoriteEntity) {
         db.favoritesDao().delete(article)
+    }
+
+    override fun favorites(): Flow<List<FavoriteEntity>> {
+        return db.favoritesDao().favorites()
     }
 }

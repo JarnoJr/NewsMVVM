@@ -9,7 +9,7 @@ import javax.inject.Singleton
 @Singleton
 class FavoriteMapper @Inject constructor() : EntityMapper<FavoriteEntity, Article> {
     override fun mapFromEntity(entity: FavoriteEntity?): Article? {
-        return if(entity != null) {
+        return if (entity != null) {
             Article(
                 author = entity.author ?: "",
                 content = entity.content ?: "",
@@ -19,7 +19,7 @@ class FavoriteMapper @Inject constructor() : EntityMapper<FavoriteEntity, Articl
                 url = entity.url,
                 urlToImage = entity.urlToImage ?: ""
             )
-        }else {
+        } else {
             null
         }
     }
@@ -35,4 +35,11 @@ class FavoriteMapper @Inject constructor() : EntityMapper<FavoriteEntity, Articl
             urlToImage = domain.urlToImage
         )
     }
+
+    fun entityListToDomainList(entities: List<FavoriteEntity>?): List<Article> =
+        entities?.map {
+            mapFromEntity(it)!!
+        } ?: emptyList()
+
+
 }
