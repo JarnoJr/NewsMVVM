@@ -7,6 +7,7 @@ import androidx.paging.LoadState
 import com.example.newsmvvm.R
 import com.example.newsmvvm.business.domain.model.Article
 import com.example.newsmvvm.business.domain.model.DialogItem
+import com.example.newsmvvm.business.domain.util.RemotePresentationState
 import com.example.newsmvvm.business.domain.util.getCategories
 import com.example.newsmvvm.business.domain.util.getCountries
 import com.example.newsmvvm.databinding.BreakingNewsFragmentBinding
@@ -17,11 +18,14 @@ import com.example.newsmvvm.framework.presentation.viewmodel.BreakingNewsViewMod
 import com.example.newsmvvm.util.Constants
 import com.example.newsmvvm.util.Constants.COUNTRY_KEY
 import com.example.newsmvvm.util.ItemClickListener
+import com.example.newsmvvm.util.asRemotePresentationState
 import com.example.newsmvvm.util.getNavigationResult
 import com.neovisionaries.i18n.CountryCode
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
+
+private const val TAG = "BreakingNewsFragment"
 
 @AndroidEntryPoint
 class BreakingNewsFragment :
@@ -45,21 +49,24 @@ class BreakingNewsFragment :
             footer = NewsLoadStateAdapter { mAdapter.retry() }
         )
         mAdapter.apply {
+            loadStateFlow.asRemotePresentationState()
+                .map { it == RemotePresentationState.PRESENTED }
             setOnClickListener(this@BreakingNewsFragment)
             addLoadStateListener { loadState ->
                 val isEmpty = loadState.refresh is LoadState.NotLoading && itemCount == 0
                 binding.errorLayout.buttonRetry.isVisible =
-                    loadState.source.refresh is LoadState.Error
-                binding.rvBreakingNews.isVisible = !isEmpty
+                    loadState.mediator?.refresh is LoadState.Error && mAdapter.itemCount == 0
+                binding.rvBreakingNews.isVisible =
+                    loadState.source.refresh is LoadState.NotLoading || loadState.mediator?.refresh is LoadState.NotLoading
                 binding.errorLayout.textViewError.isVisible = isEmpty
-                showProgress(loadState.source.refresh is LoadState.Loading)
+                showProgress(loadState.mediator?.refresh is LoadState.Loading)
             }
         }
     }
 
     private fun subscribeObservers() {
-        launchOnLifecycleScope {
-            mViewModel.articles.collectLatest {
+        mViewModel.articles.observe(viewLifecycleOwner) {
+            launchOnLifecycleScope {
                 mAdapter.submitData(it)
             }
         }
@@ -108,7 +115,9 @@ class BreakingNewsFragment :
     }
 
     override fun onClick(item: Article) {
-
+        val action =
+            BreakingNewsFragmentDirections.actionBreakingNewsFragment2ToArticleFragment(item)
+        findNavController().navigate(action)
     }
 
     override val layoutId: Int

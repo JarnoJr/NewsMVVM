@@ -2,13 +2,12 @@ package com.example.newsmvvm.framework.datasource.cache.database.model
 
 import android.os.Parcelable
 import androidx.room.Entity
-import androidx.room.Index
 import androidx.room.PrimaryKey
+import kotlinx.parcelize.Parcelize
 
-
-@kotlinx.parcelize.Parcelize
-@Entity(tableName = "articles", indices = [Index(value = ["title"], unique = true)])
-data class ArticleEntity(
+@Parcelize
+@Entity(tableName = "favorites")
+data class FavoriteEntity(
     val author: String?,
     val title: String,
     val description: String?,
@@ -16,5 +15,5 @@ data class ArticleEntity(
     val url: String,
     val urlToImage: String?,
     val publishedAt: String,
-    val content: String?
+    val content: String?,
 ) : Parcelable

@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.example.newsmvvm.business.domain.model.Article
 import com.example.newsmvvm.databinding.NewsItemBinding
 import com.example.newsmvvm.util.GlideUtil
@@ -13,7 +14,7 @@ import javax.inject.Inject
 
 
 class BreakingNewsAdapter @Inject constructor(
-    private val glideUtil: GlideUtil
+    private val progressDrawable:CircularProgressDrawable
 ) :
     PagingDataAdapter<Article, BreakingNewsAdapter.BreakingNewsHolder>(NEWS_COMPARATOR) {
 
@@ -60,6 +61,7 @@ class BreakingNewsAdapter @Inject constructor(
 
         fun bind(article: Article) {
             binding.article = article
+            binding.progressDrawable = progressDrawable
         }
     }
 

@@ -8,6 +8,10 @@
         <variable
             name="article"
             type="com.example.newsmvvm.business.domain.model.Article" />
+
+        <variable
+            name="progressDrawable"
+            type="androidx.swiperefreshlayout.widget.CircularProgressDrawable" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -34,12 +38,13 @@
 
             <ImageView
                 android:id="@+id/article_iv"
+                load="@{article.urlToImage}"
+                circularProgressDrawable="@{progressDrawable}"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:contentDescription="@string/article_image"
                 android:scaleType="fitXY"
-                load="@{article.urlToImage}"
-                tools:src="@drawable/ic_launcher_foreground"
-                android:contentDescription="@string/article_image" />
+                tools:src="@drawable/ic_launcher_foreground" />
 
 
             <TextView
@@ -47,8 +52,8 @@
                 style="@style/dateAndAuthorStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:elevation="8dp"
                 android:layout_marginEnd="8dp"
+                android:elevation="8dp"
                 android:text="@{article.formattedDate}"
                 app:layout_constraintBottom_toBottomOf="@+id/article_iv"
                 app:layout_constraintEnd_toEndOf="@+id/view2"
@@ -74,8 +79,8 @@
                 style="@style/dateAndAuthorStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:elevation="8dp"
                 android:layout_marginStart="8dp"
+                android:elevation="8dp"
                 android:text="@{article.author}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/tvDate"

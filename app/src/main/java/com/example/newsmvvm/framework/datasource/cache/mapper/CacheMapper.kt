@@ -9,15 +9,15 @@ import javax.inject.Singleton
 @Singleton
 class CacheMapper @Inject constructor() : EntityMapper<ArticleEntity, Article> {
 
-    override fun mapFromEntity(entity: ArticleEntity): Article {
+    override fun mapFromEntity(entity: ArticleEntity?): Article {
         return Article(
-            author = entity.author ?: "",
-            content = entity.content ?: "",
-            description = entity.description,
-            publishedAt = entity.publishedAt,
-            title = entity.title,
-            url = entity.url,
-            urlToImage = entity.urlToImage ?: ""
+            author = entity?.author ?: "",
+            content = entity?.content ?: "",
+            description = entity?.description,
+            publishedAt = entity?.publishedAt ?: "",
+            title = entity?.title ?: "",
+            url = entity?.url ?: "",
+            urlToImage = entity?.urlToImage ?: ""
         )
     }
 

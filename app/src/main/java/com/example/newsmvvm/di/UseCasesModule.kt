@@ -1,5 +1,7 @@
 package com.example.newsmvvm.di
 
+import com.example.newsmvvm.business.usecase.ArticleUseCase
+import com.example.newsmvvm.business.usecase.ArticleUseCaseImpl
 import com.example.newsmvvm.business.usecase.GetArticlesUseCase
 import com.example.newsmvvm.business.usecase.GetArticlesUseCaseImpl
 import dagger.Binds
@@ -13,5 +15,8 @@ interface UseCasesModule {
 
     @Binds
     fun bindGetArticleUseCase(getArticlesUseCaseImpl: GetArticlesUseCaseImpl):GetArticlesUseCase
+
+    @Binds
+    fun bindArticleUseCase(articleUseCaseImpl: ArticleUseCaseImpl):ArticleUseCase
 
 }

@@ -2,6 +2,7 @@ package com.example.newsmvvm.business.usecase
 
 import androidx.paging.PagingData
 import com.example.newsmvvm.business.domain.model.Article
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 
 interface GetArticlesUseCase {

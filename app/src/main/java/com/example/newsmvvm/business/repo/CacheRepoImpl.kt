@@ -1,17 +1,15 @@
 package com.example.newsmvvm.business.repo
 
 import android.content.Context
-import android.nfc.tech.MifareUltralight.PAGE_SIZE
-import androidx.paging.ExperimentalPagingApi
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.PagingData
+import androidx.paging.*
 import com.example.newsmvvm.framework.datasource.cache.database.AppDatabase
 import com.example.newsmvvm.framework.datasource.cache.database.model.ArticleEntity
+import com.example.newsmvvm.framework.datasource.cache.database.model.FavoriteEntity
 import com.example.newsmvvm.framework.datasource.network.NewsApi
 import com.example.newsmvvm.framework.datasource.network.mapper.NetworkMapper
 import com.example.newsmvvm.framework.datasource.network.paging.NewsRemoteMediator
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -47,5 +45,17 @@ class CacheRepoImpl @Inject constructor(
                 (db.articlesDao().articles())
             }
         ).flow
+    }
+
+    override suspend fun getArticle(url: String): FavoriteEntity? {
+        return db.favoritesDao().get(url)
+    }
+
+    override suspend fun insertArticle(article: FavoriteEntity) {
+        db.favoritesDao().insert(article)
+    }
+
+    override suspend fun removeArticle(article: FavoriteEntity) {
+        db.favoritesDao().delete(article)
     }
 }

@@ -18,4 +18,6 @@ interface ArticleDao {
     @Query("DELETE FROM articles")
     suspend fun clearArticles()
 
+    @Query("SELECT * FROM articles WHERE url = :url")
+    suspend fun getArticle(url:String):ArticleEntity
 }
