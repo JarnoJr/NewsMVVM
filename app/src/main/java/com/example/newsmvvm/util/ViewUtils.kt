@@ -11,8 +11,9 @@ fun Fragment.showSnack(
     color: Int = R.color.error,
     callback: (() -> Unit)? = null
 ) {
-    Snackbar.make(this.requireView(), message, Snackbar.LENGTH_LONG)
+    Snackbar.make(this.requireView(), message, Snackbar.LENGTH_SHORT)
         .apply {
+            anchorView = requireActivity().findViewById(R.id.bottomNavigationView)
             setActionTextColor(ContextCompat.getColor(requireContext(), R.color.white))
             if (callback != null) {
                 setAction("Undo") {

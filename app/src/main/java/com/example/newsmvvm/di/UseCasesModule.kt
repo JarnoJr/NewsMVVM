@@ -19,4 +19,7 @@ interface UseCasesModule {
     @Binds
     fun bindFavoritesUseCase(favoritesUseCaseImpl: FavoritesUseCaseImpl):FavoritesUseCase
 
+    @Binds
+    fun bindSearchNewsUseCase(searchNewsUseCaseImpl: SearchNewsUseCaseImpl):SearchNewsUseCase
+
 }

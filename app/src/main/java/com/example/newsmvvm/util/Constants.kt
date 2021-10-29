@@ -15,4 +15,7 @@ object Constants {
     const val DEFAULT_CATEGORY = "general"
     const val SELECTED_COUNTRY = "country"
     const val SELECTED_CATEGORY = "category"
+    const val DEFAULT_QUERY = "Android"
+    const val LAST_QUERY_SCROLLED: String = "last_query_scrolled"
+    const val LAST_SEARCH_QUERY: String = "last_search_query"
 }

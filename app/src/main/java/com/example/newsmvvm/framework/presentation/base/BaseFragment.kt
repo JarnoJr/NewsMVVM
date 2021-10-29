@@ -24,7 +24,7 @@ abstract class BaseFragment<DB : ViewDataBinding, VM : ViewModel> : Fragment() {
 
     abstract fun getVM(): VM
 
-    val activityViewModel by activityViewModels<MainActivityViewModel>()
+    private val activityViewModel by activityViewModels<MainActivityViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -60,6 +60,7 @@ abstract class BaseFragment<DB : ViewDataBinding, VM : ViewModel> : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         binding.unbind()
+        showProgress(false)
     }
 
 }

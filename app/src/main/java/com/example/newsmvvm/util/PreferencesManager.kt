@@ -34,7 +34,6 @@ class PreferencesManager @Inject constructor(@ApplicationContext context: Contex
 
     private val dataStore = context.dataStore
 
-
     val preferencesFlow = dataStore.data
         .catch { exception ->
             if (exception is IOException) {

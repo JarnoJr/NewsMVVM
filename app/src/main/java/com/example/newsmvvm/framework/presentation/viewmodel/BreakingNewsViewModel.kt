@@ -36,7 +36,7 @@ class BreakingNewsViewModel
     val articles = Transformations.switchMap(
         preferences
     ) {
-        getArticles(it.country, it.category).asLiveData().cachedIn(viewModelScope)
+        return@switchMap getArticles(it.country, it.category).cachedIn(viewModelScope).asLiveData()
     }
 
 

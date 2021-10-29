@@ -1,15 +1,15 @@
 package com.example.newsmvvm.framework.datasource.network.mapper
 
+import com.example.newsmvvm.business.domain.model.Article
 import com.example.newsmvvm.business.domain.util.DTOMapper
-import com.example.newsmvvm.framework.datasource.cache.database.model.ArticleEntity
 import com.example.newsmvvm.framework.datasource.network.model.ArticleDTO
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class NetworkMapper @Inject constructor() : DTOMapper<ArticleDTO, ArticleEntity> {
-    override fun mapfromDto(dto: ArticleDTO): ArticleEntity {
-        return ArticleEntity(
+class NetworkDomainMapper @Inject constructor():DTOMapper<ArticleDTO,Article> {
+    override fun mapfromDto(dto: ArticleDTO): Article {
+        return Article(
             author = dto.author ?: "",
             content = dto.content ?:"",
             description = dto.description ?: "",
@@ -19,8 +19,7 @@ class NetworkMapper @Inject constructor() : DTOMapper<ArticleDTO, ArticleEntity>
             urlToImage = dto.urlToImage ?: ""
         )
     }
-
-    fun dtoListToEntityList(dtos: List<ArticleDTO>): List<ArticleEntity> {
+    fun dtoListToDomainList(dtos: List<ArticleDTO>): List<Article> {
         return dtos.map { mapfromDto(it) }
     }
 }

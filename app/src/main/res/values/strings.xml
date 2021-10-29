@@ -4,6 +4,7 @@
     <string name="no_result">Results could not be loaded</string>
     <string name="retry">Retry</string>
     <string name="no_favorite">No Favorite</string>
+    <string name="results">Search results for query: %1s</string>
 
     <string-array name="categories">
         <item>Business</item>

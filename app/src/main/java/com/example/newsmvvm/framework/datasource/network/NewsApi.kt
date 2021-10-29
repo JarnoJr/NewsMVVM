@@ -19,7 +19,6 @@ interface NewsApi {
     @GET("/v2/everything")
     suspend fun searchNews(
         @Query("q") query: String,
-        @Query("sortBy") sortBy: String,
         @Query("page") page: Int,
         @Query("pageSize") pageSize: Int,
         @Query("apiKey") apiKey: String

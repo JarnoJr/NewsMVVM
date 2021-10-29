@@ -14,7 +14,7 @@
             android:icon="@drawable/ic_favourites"
             app:showAsAction="ifRoom"/>
 
-        <item android:id="@+id/searchNewsFragment"
+        <item android:id="@+id/searchFragment"
             android:title="Search News"
             android:icon="@drawable/ic_search_news"
             app:showAsAction="ifRoom"/>

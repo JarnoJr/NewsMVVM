@@ -51,4 +51,17 @@
             android:name="items"
             app:argType="com.example.newsmvvm.business.domain.model.DialogItem[]" />
     </dialog>
+    <fragment
+        android:id="@+id/searchFragment"
+        tools:layout="@layout/search_news_fragment"
+        android:name="com.example.newsmvvm.framework.presentation.view.fragments.SearchFragment"
+        android:label="SearchFragment" >
+        <action
+            android:id="@+id/action_searchFragment_to_articleFragment"
+            app:destination="@id/articleFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+    </fragment>
 </navigation>
